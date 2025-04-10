@@ -56,13 +56,13 @@ use ieee.numeric_std.all;
 entity TDM4 is
 	generic ( constant k_WIDTH : natural  := 4); -- bits in input and output
     Port ( i_clk		: in  STD_LOGIC;
-           i_reset		: in  STD_LOGIC; -- asynchronous
+           i_reset  : in  STD_LOGIC; -- asynchronous
            i_D3 		: in  STD_LOGIC_VECTOR (k_WIDTH - 1 downto 0);
-		   i_D2 		: in  STD_LOGIC_VECTOR (k_WIDTH - 1 downto 0);
-		   i_D1 		: in  STD_LOGIC_VECTOR (k_WIDTH - 1 downto 0);
-		   i_D0 		: in  STD_LOGIC_VECTOR (k_WIDTH - 1 downto 0);
-		   o_data		: out STD_LOGIC_VECTOR (k_WIDTH - 1 downto 0);
-		   o_sel		: out STD_LOGIC_VECTOR (3 downto 0)	-- selected data line (one-cold)
+           i_D2 		: in  STD_LOGIC_VECTOR (k_WIDTH - 1 downto 0);
+           i_D1 		: in  STD_LOGIC_VECTOR (k_WIDTH - 1 downto 0);
+           i_D0 		: in  STD_LOGIC_VECTOR (k_WIDTH - 1 downto 0);
+           o_data		: out STD_LOGIC_VECTOR (k_WIDTH - 1 downto 0);
+           o_sel		: out STD_LOGIC_VECTOR (3 downto 0)	-- selected data line (one-cold)
 	);
 end TDM4;
 
@@ -91,15 +91,15 @@ begin
 	-- CONCURRENT STATEMENTS ----------------------------
 	
 	-- output MUXs
-	o_DATA <= i_D3 when f_sel = "11" else
-			  i_D2 when f_sel = "10" else
-			  i_D1 when f_sel = "01" else
-			  i_D0;
+  o_DATA <=  i_D3 when f_sel = "11" else   -- cathodes
+             i_D2 when f_sel = "10" else
+             i_D1 when f_sel = "01" else
+             i_D0;
 			  
-	o_SEL  <=  "0111" when f_sel = "11" else
-			   "1011" when f_sel = "10" else
-			   "1101" when f_sel = "01" else
-			   "1110";
-		
+	o_SEL  <=  "0111" when f_sel = "11" else -- anode
+             "1011" when f_sel = "10" else
+             "1101" when f_sel = "01" else
+             "1110";
+        
 end behavioral;
 
